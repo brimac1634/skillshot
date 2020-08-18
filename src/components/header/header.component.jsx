@@ -1,33 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+import DropDown from '../dropdown/dropdown.component';
 
+import { homeNav, mainNav } from './header.data';
+
+const Header = ({ setScroll }) => {
     return ( 
-        <nav className='flex items-center justify-between flex-wrap bg-indigo-600 p-6'>
+        <nav className='bg-gray-900 py-3 px-5 lg:py-5 lg:px-6 w-full lg:flex lg:justify-between lg:items-center'>
             <div className='flex items-center flex-shrink-0 text-white mr-6'>
                 <span className='font-semibold text-xl tracking-tight'>Skillshot</span>
             </div>
-            <div className='block lg:hidden'>
-                <button className='flex flex-col items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white'>
-                    <div className='w-5 h-px bg-white my-1'/>
-                    <div className='w-5 h-px bg-white my-px'/>
-                    <div className='w-5 h-px bg-white my-1'/>
-                </button>
-            </div>
-            <div className='w-full block flex-grow lg:flex lg:items-center lg:w-auto'>
-                <div className='text-sm lg:flex-grow'>
-                    <Link className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4' to='/'>Home</Link>
-                    <Link className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4' to='/kickstarter'>Kickstarter</Link>
-                    <Link className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4' to='/media'>Media</Link>
-                    <Link className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4' to='/who-we-are'>Who we are</Link>
-                    <Link className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4' to='/contact-us'>Contact us</Link>
-                </div>
-                <div>
-                    <Link to='/buy' className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-600 hover:bg-white mt-4 lg:mt-0'>
-                        Buy
+            <div className='w-full text-sm flex justify-between items-center lg:justify-end my-2'>
+                <DropDown 
+                    snap='bottom-left'
+                    toggleOnHover
+                    closeOnClick
+                >
+                    <Link 
+                        className='text-white hover:text-skillshot-pink lg:ml-4 cursor-pointer'
+                        to='/'
+                    >
+                        Home
                     </Link>
-                </div>
+                    <div className='bg-gray-200 shadow-lg'>
+                        {
+                            homeNav &&
+                            homeNav.map(({ title, section }) => (
+                                <span 
+                                    key={title} 
+                                    className='text-black block whitespace-no-wrap capitalize px-3 py-2 hover:bg-gray-300 cursor-pointer' 
+                                    onClick={() => setScroll(section)}
+                                >
+                                    {title}
+                                </span>
+                            ))
+                        }
+                    </div>
+                </DropDown>
+                {
+                    mainNav &&
+                    mainNav.map(({ title, path }) => (
+                        <Link key={title} className='text-white hover:text-skillshot-pink lg:ml-4' to={path}>{title}</Link>
+                    ))
+                }
             </div>
         </nav>
      );
