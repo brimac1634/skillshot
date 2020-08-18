@@ -16,18 +16,18 @@ import ContactUs from './pages/contact-us/contact-us.component';
 import './App.css';
 
 function App() {
-  const [homeSection, setHomeSection] = useState(null);
+  const [homeIndex, setHomeIndex] = useState(null);
   return (
     <div className='w-screen'>
-      <Header setScroll={section => setHomeSection(section)} />
+      <Header setScroll={index => setHomeIndex(index)} />
       <ErrorBoundary>
         <Suspense fallback={<div className='fixed top-0 left-0 w-screen h-screen flex items-center justify-center'><Loader/></div>}>
           <Switch>
-              <Route exact path='/' render={() => <Home homeSection={homeSection} />} />
+              <Route exact path='/' render={() => <Home homeIndex={homeIndex} />} />
               <Route exact path='/kickstarter' component={Kickstarter} />
               <Route path='/media' component={Media} />
               <Route path='/who-we-are' component={WhoWeAre} />
-              <Route path='/contact-us' component={ContactUs}/>
+              <Route path='/contact' component={ContactUs}/>
               <Redirect to='/' />
           </Switch>
         </Suspense>

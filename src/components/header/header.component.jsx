@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import DropDown from '../dropdown/dropdown.component';
-
-import { homeNav, mainNav } from './header.data';
+import { homeNav, mainNav } from '../../constants/nav';
 
 const Header = ({ setScroll }) => {
     const [showDrop, setShowDrop] = useState(false);
+    // console.log({ showDrop })
     return ( 
-        <nav className='bg-gray-900 py-3 px-5 lg:py-5 lg:px-6 w-full lg:flex lg:justify-between lg:items-center'>
+        <nav className='fixed z-10 top-0 left-0 bg-gray-900 py-3 px-5 lg:py-5 lg:px-6 w-screen lg:flex lg:justify-between lg:items-center'>
             <div className='flex items-center flex-shrink-0 text-white mr-6 cursor-pointer'>
                 <Link to='/' className='font-semibold text-xl tracking-tight'>Skillshot</Link>
             </div>
@@ -21,6 +20,9 @@ const Header = ({ setScroll }) => {
                     onMouseLeave={()=>{
                         setShowDrop(false);
                     }}
+                    onTouchEnd={()=>{
+                        setShowDrop(true);
+                    }}
                 >
                     <Link 
                         className={`hover:text-skillshot-pink cursor-pointer ${showDrop ? 'text-skillshot-pink' : 'text-white'}`}
@@ -30,15 +32,18 @@ const Header = ({ setScroll }) => {
                     </Link>
                     {
                         showDrop &&
-                        <div className='absolute top-100 left-0 z-10'>
+                        <div className='absolute top-100 left-0 z-20'>
                             <div className='bg-gray-200 shadow-lg mt-2'>
                                 {
                                     homeNav &&
-                                    homeNav.map(({ title, section }) => (
+                                    homeNav.map((title, i) => (
                                         <span 
                                             key={title} 
                                             className='text-black block whitespace-no-wrap capitalize px-3 py-2 hover:bg-gray-300 cursor-pointer' 
-                                            onClick={() => setScroll(section)}
+                                            onClick={() => {
+                                                setScroll(i);
+                                                setShowDrop(false);
+                                            }}
                                         >
                                             {title}
                                         </span>
